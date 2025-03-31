@@ -42,7 +42,7 @@ This project uses `uv` for dependency management.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/z3_mcp.git
+git clone https://github.com/javergar/z3_mcp.git
 cd z3_mcp
 
 # Install dependencies
