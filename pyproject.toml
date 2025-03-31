@@ -6,6 +6,7 @@ build-backend = "hatchling.build"
 name = "z3_poc"
 version = "0.1.0"
 description = "A Z3 solver MCP server using functional programming"
+author="Alberto Vergara"
 readme = "README.md"
 requires-python = ">=3.12"
 license = {text = "MIT"}

@@ -16,7 +16,7 @@ This project demonstrates how to use the Z3 Theorem Prover with a functional pro
 ## Project Structure
 
 ```
-z3_poc/
+z3_mcp/
 ├── core/                  # Core implementation
 │   ├── solver.py          # Constraint satisfaction problem solving
 │   └── relationships.py   # Relationship analysis
@@ -42,8 +42,8 @@ This project uses `uv` for dependency management.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/z3_poc.git
-cd z3_poc
+git clone https://github.com/yourusername/z3_mcp.git
+cd z3_mcp
 
 # Install dependencies
 uv pip install -e .
