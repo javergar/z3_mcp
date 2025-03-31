@@ -863,7 +863,7 @@ wheels = [
 ]
 
 [[package]]
-name = "z3-poc"
+name = "z3-mcp"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

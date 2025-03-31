@@ -26,7 +26,7 @@ from z3 import (
     sat,
 )
 
-from z3_poc.models.constraints import (
+from z3_mcp.models.constraints import (
     Constraint,
     Problem,
     Solution,

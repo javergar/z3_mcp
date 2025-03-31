@@ -10,10 +10,10 @@ that would be challenging for an LLM to solve correctly without formal verificat
 """
 from returns.result import Failure, Success
 
-from z3_poc.core.relationships import analyze_relationships
-from z3_poc.core.solver import solve_problem
-from z3_poc.models.constraints import Constraint, Problem, Variable, VariableType
-from z3_poc.models.relationships import Relationship, RelationshipQuery
+from z3_mcp.core.relationships import analyze_relationships
+from z3_mcp.core.solver import solve_problem
+from z3_mcp.models.constraints import Constraint, Problem, Variable, VariableType
+from z3_mcp.models.relationships import Relationship, RelationshipQuery
 
 
 def main() -> None:

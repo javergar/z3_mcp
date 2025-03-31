@@ -14,7 +14,7 @@ from z3 import (
     unsat,
 )
 
-from z3_poc.models.relationships import (
+from z3_mcp.models.relationships import (
     Entity,
     Relation,
     Relationship,
