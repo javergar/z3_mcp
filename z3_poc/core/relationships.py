@@ -277,50 +277,30 @@ def analyze_relationships(query: RelationshipQuery) -> Result[RelationshipResult
     try:
         solver = Solver()
         
-        # Create entities and relations
-        entities_result = create_entities(query.relationships)
-        match entities_result:
-            case Failure(error):
-                return Failure(error)
-            case Success(entities):
-                relations_result = create_relations(query.relationships)
-                match relations_result:
-                    case Failure(error):
-                        return Failure(error)
-                    case Success(relations):
-                        # Add relationship assertions
-                        assertions_result = add_relationship_assertions(solver, query.relationships, entities, relations)
-                        match assertions_result:
-                            case Failure(error):
-                                return Failure(error)
-                            case Success(_):
-                                # Parse the query
-                                query_expr_result = parse_query(query.query, entities, relations)
-                                match query_expr_result:
-                                    case Failure(error):
-                                        return Failure(error)
-                                    case Success(query_expr):
-                                        # Check if the model is satisfiable
-                                        if solver.check() == unsat:
-                                            return Success(RelationshipResult(
-                                                result=False,
-                                                explanation="The relationships are contradictory.",
-                                                is_satisfiable=False
-                                            ))
-                                        
-                                        # Evaluate the query
-                                        eval_result = evaluate_query(solver, query_expr)
-                                        match eval_result:
-                                            case Failure(error):
-                                                return Failure(error)
-                                            case Success((result, explanation, is_satisfiable)):
-                                                return Success(RelationshipResult(
-                                                    result=result,
-                                                    explanation=explanation,
-                                                    is_satisfiable=is_satisfiable
-                                                ))
+        # Use do notation with generator expressions
+        expr = (
+            RelationshipResult(
+                result=result,
+                explanation=explanation,
+                is_satisfiable=is_satisfiable
+            )
+            if solver.check() != unsat
+            else RelationshipResult(
+                result=False,
+                explanation="The relationships are contradictory.",
+                is_satisfiable=False
+            )
+            for entities in create_entities(query.relationships)
+            for relations in create_relations(query.relationships)
+            for _ in add_relationship_assertions(solver, query.relationships, entities, relations)
+            for query_expr in parse_query(query.query, entities, relations)
+            for (result, explanation, is_satisfiable) in (
+                evaluate_query(solver, query_expr)
+                if solver.check() != unsat
+                else Success((False, "The relationships are contradictory.", False))
+            )
+        )
+        
+        return Result.do(expr)
     except Exception as e:
         return Failure(f"Error analyzing relationships: {e!s}")
-    
-    # This should never be reached, but adding for type safety
-    return Failure("Unexpected error in analyze_relationships")
